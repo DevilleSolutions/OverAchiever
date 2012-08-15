@@ -1,0 +1,8 @@
+_resharper.*
+packages/*
+bin/
+obj/
+*.suo
+*.dll
+*.pdb
+*.css
