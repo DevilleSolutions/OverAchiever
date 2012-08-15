@@ -1,7 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using OverAchiever.Web.StartupTasks;
+using OverAchiever.Infrastructure;
 
 namespace OverAchiever.Web.Installers
 {

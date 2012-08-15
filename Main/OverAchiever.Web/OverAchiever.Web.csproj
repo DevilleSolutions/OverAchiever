@@ -150,7 +150,6 @@
     <Compile Include="Plumbing\WindsorControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupTasks\AreaRegistrationStartupTask.cs" />
-    <Compile Include="StartupTasks\IStartupTask.cs" />
     <Compile Include="StartupTasks\RegisterBundlesStartupTask.cs" />
     <Compile Include="StartupTasks\RegisterGlobalFiltersStartupTask.cs" />
     <Compile Include="StartupTasks\RegisterRoutesStartupTask.cs" />
@@ -250,6 +249,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OverAchiever.Infrastructure\OverAchiever.Infrastructure.csproj">
+      <Project>{6381ED3B-C7E4-4E51-B958-86EA6F96D1CA}</Project>
+      <Name>OverAchiever.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

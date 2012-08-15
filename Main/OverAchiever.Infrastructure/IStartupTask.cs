@@ -1,4 +1,4 @@
-﻿namespace OverAchiever.Web.StartupTasks
+﻿namespace OverAchiever.Infrastructure
 {
     public interface IStartupTask
     {

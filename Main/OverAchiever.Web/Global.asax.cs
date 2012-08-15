@@ -2,6 +2,7 @@
 using Castle.Core.Internal;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using OverAchiever.Infrastructure;
 using OverAchiever.Web.StartupTasks;
 
 namespace OverAchiever.Web
