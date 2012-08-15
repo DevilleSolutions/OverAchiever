@@ -14,7 +14,7 @@ namespace OverAchiever.Web.StartupTasks
 
         public void Run()
         {
-            FilterConfig.RegisterGlobalFilters(_filters);
+            _filters.Add(new HandleErrorAttribute());
         }
     }
 }

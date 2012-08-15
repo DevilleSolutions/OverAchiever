@@ -1,4 +1,6 @@
-﻿using System.Web.Routing;
+﻿using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Routing;
 using OverAchiever.Infrastructure;
 
 namespace OverAchiever.Web.StartupTasks
@@ -14,7 +16,19 @@ namespace OverAchiever.Web.StartupTasks
 
         public void Run()
         {
-            RouteConfig.RegisterRoutes(_routes);
+            _routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            _routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+            _routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
         }
     }
 }
