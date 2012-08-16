@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Castle.Core.Internal;
+using Castle.Facilities.TypedFactory;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using OverAchiever.Infrastructure;
-using OverAchiever.Web.StartupTasks;
 
 namespace OverAchiever.Web
 {
@@ -17,6 +17,7 @@ namespace OverAchiever.Web
         protected void Application_Start()
         {
             _container = new WindsorContainer();
+            _container.AddFacility<TypedFactoryFacility>();
             _container.Install(FromAssembly.This());
 
             RunStartupTasks();

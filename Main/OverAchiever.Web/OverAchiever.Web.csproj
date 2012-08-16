@@ -139,15 +139,26 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Installers\ControllerInstaller.cs" />
+    <Compile Include="Installers\FactoryInstaller.cs" />
+    <Compile Include="Installers\ModelInstaller.cs" />
     <Compile Include="Installers\MvcInstaller.cs" />
+    <Compile Include="Installers\ServiceInstaller.cs" />
     <Compile Include="Installers\StartupTaskInstaller.cs" />
     <Compile Include="Installers\WindsorInstaller.cs" />
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Plumbing\WindsorControllerFactory.cs" />
+    <Compile Include="Models\Factories\IGoalFactory.cs" />
+    <Compile Include="Models\FakeGoalCalculator.cs" />
+    <Compile Include="Services\GoalTrackingService.cs" />
+    <Compile Include="Models\IGoal.cs" />
+    <Compile Include="Models\IGoalCalculator.cs" />
+    <Compile Include="Models\Goal.cs" />
+    <Compile Include="Services\IGoalTrackingService.cs" />
+    <Compile Include="Plumbing\WindsorControllerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupTasks\AreaRegistrationStartupTask.cs" />
     <Compile Include="StartupTasks\RegisterBundlesStartupTask.cs" />

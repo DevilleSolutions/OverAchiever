@@ -7,7 +7,7 @@ class Project
 	@Name = @FilePath.split(/\//).last.split(/.csproj/).first
 	@Description = "Deville Solutions Application Block"
 	@Author = "Deville Solutions Inc."
-	@Platforms = ["NET40", "SL40", "SL3-WP", "winrt45", ".NETPortable40-Profile2"]
+	@Platforms = ["NET40"]
 	@Dependencies = Array.new
 
 	LoadPackageDependencies()

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using OverAchiever.Web.Models
+@model IEnumerable<IGoal>
+@{
     ViewBag.Title = "Home Page";
 }
 @section featured {
@@ -21,7 +23,15 @@
 <h3>We suggest the following:</h3>
 <ol class="round">
     <li class="one">
-        <h5>Getting Started</h5>
+        <h5>Goals</h5>
+        
+        <ul class="Goals">
+            @foreach (var goal in Model)
+            {
+                <li>@goal.Current of @goal.Desired</li>
+            }
+        </ul>
+
         ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
         enables a clean separation of concerns and that gives you full control over markup
         for enjoyable, agile development. ASP.NET MVC includes many features that enable

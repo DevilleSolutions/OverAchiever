@@ -17,7 +17,7 @@ namespace OverAchiever.Web.Installers
             container.Register(Component.For<BundleCollection>().Instance(BundleTable.Bundles));
             container.Register(Component.For<ControllerBuilder>().Instance(ControllerBuilder.Current));
 
-            container.Register(Component.For<IControllerFactory>().ImplementedBy<WindsorControllerFactory>());
+            container.Register(Component.For<IControllerFactory>().ImplementedBy<WindsorControllerManager>());
         }
     }
 }

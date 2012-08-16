@@ -14,6 +14,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{ED01A2
 		Main\GlobalAssemblyInfo.cs = Main\GlobalAssemblyInfo.cs
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{AE5E6260-9302-4D09-A10C-93DFA1A6C4D0}"
+	ProjectSection(SolutionItems) = preProject
+		rakefile.rb = rakefile.rb
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks", "Tasks", "{0AC006B7-4184-4D69-8DB4-359F66DA2D19}"
+	ProjectSection(SolutionItems) = preProject
+		tasks\build.rake = tasks\build.rake
+		tasks\metadata.rake = tasks\metadata.rake
+		tasks\nuget.rake = tasks\nuget.rake
+		tasks\project.rb = tasks\project.rb
+		tasks\utils.rake = tasks\utils.rake
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,5 +53,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0AC006B7-4184-4D69-8DB4-359F66DA2D19} = {AE5E6260-9302-4D09-A10C-93DFA1A6C4D0}
 	EndGlobalSection
 EndGlobal
