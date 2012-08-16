@@ -1,0 +1,17 @@
+source :rubygems
+
+group :setup do
+	gem 'albacore'
+	gem 'git'
+end
+
+group :dev do
+end
+
+group :runtime do
+end
+
+group :tools do
+#  gem 'stylecop'
+#  gem 'gallio'
+end
