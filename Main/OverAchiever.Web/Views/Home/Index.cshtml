@@ -28,7 +28,13 @@
         <ul class="Goals">
             @foreach (var goal in Model)
             {
-                <li>@goal.Current of @goal.Desired</li>
+                <li>
+                    <section id="@goal.Name">
+                        <h2>@goal.Summary</h2>
+                        <progress value="@goal.Current" max="@goal.Achieved" />
+                        <p>@goal.Description</p>
+                    </section>
+                </li>
             }
         </ul>
 

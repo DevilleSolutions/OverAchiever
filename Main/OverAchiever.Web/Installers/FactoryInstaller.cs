@@ -2,6 +2,7 @@
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using OverAchiever.Web.Models.Factories;
 
 namespace OverAchiever.Web.Installers
 {
@@ -13,6 +14,8 @@ namespace OverAchiever.Web.Installers
                                    .Where(t => t.Name.EndsWith("Factory"))
                                    .Configure(cr => cr.AsFactory())
                                    .LifestyleSingleton());
+
+            container.Register(Component.For(typeof (IDescriptorFactory<>)).AsFactory().LifestyleSingleton());
         }
     }
 }
