@@ -1,12 +1,12 @@
-﻿namespace OverAchiever.Web.Models
+﻿using OverAchiever.Web.Models.Calculators;
+
+namespace OverAchiever.Web.Models
 {
     public interface IGoal
     {
-        int Current { get; }
+        int Desired { get; }
 
-        int Desired { get; set; }
-
-        bool Achieved { get; }
+        IGoalCalculator Calculator { get; }
 
         string Name { get; set; }
 

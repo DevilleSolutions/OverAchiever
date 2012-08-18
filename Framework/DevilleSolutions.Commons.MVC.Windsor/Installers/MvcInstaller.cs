@@ -4,9 +4,8 @@ using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using OverAchiever.Web.Plumbing;
 
-namespace OverAchiever.Web.Installers
+namespace DevilleSolutions.Commons.MVC.Windsor.Installers
 {
     public class MvcInstaller : IWindsorInstaller
     {

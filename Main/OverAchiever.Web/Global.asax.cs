@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using Castle.Core.Internal;
+﻿using System.Linq;
 using Castle.Facilities.TypedFactory;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using DevilleSolutions.Commons.Extensions;
+using DevilleSolutions.Commons.MVC.Windsor;
 using OverAchiever.Infrastructure;
 
 namespace OverAchiever.Web
@@ -16,28 +17,18 @@ namespace OverAchiever.Web
 
         protected void Application_Start()
         {
-            _container = new WindsorContainer();
-            _container.AddFacility<TypedFactoryFacility>();
+            _container = Bootstrap.WithWindsor(typeof (TypedFactoryFacility));
             _container.Install(FromAssembly.This());
 
             RunStartupTasks();
-
-            //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            //RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
         private void RunStartupTasks()
         {
-            IEnumerable<IStartupTask> startupTasks = _container.ResolveAll<IStartupTask>();
+            var startupTasks = _container.ResolveAll<IStartupTask>().AsEnumerable();
+
+            // startupTasks.InParallel(task => task.Run());
             startupTasks.ForEach(task => task.Run());
-        }
-
-        public override void Dispose()
-        {
-            _container.Dispose();
-
-            base.Dispose();
         }
     }
 }

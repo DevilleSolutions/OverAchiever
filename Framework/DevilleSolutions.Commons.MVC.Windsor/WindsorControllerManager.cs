@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.MicroKernel;
 
-namespace OverAchiever.Web.Plumbing
+namespace DevilleSolutions.Commons.MVC.Windsor
 {
     public class WindsorControllerManager : DefaultControllerFactory
     {
@@ -43,6 +43,5 @@ namespace OverAchiever.Web.Plumbing
             }
             return (IController)_kernel.Resolve(controllerType);
         }
-
     }
 }

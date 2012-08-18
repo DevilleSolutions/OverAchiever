@@ -29,7 +29,7 @@ namespace OverAchiever.Web.Services
         {
             if(_trackedGoals.Contains(goal))
             {
-                return _trackedGoals[_trackedGoals.IndexOf(goal)].Current;
+                return _trackedGoals[_trackedGoals.IndexOf(goal)].Calculator.GetCurrent();
             }
 
             return 0;
