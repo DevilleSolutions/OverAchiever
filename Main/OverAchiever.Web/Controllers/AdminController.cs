@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Security;
 using OverAchiever.Web.Models;
+using OverAchiever.Web.Models.Factories;
 
 namespace OverAchiever.Web.Controllers
 {
@@ -9,6 +10,13 @@ namespace OverAchiever.Web.Controllers
     [Authorize]
     public class AdminController : Controller
     {
+        private readonly ILoginModelFactory _loginModelFactory;
+
+        public AdminController(ILoginModelFactory loginModelFactory)
+        {
+            _loginModelFactory = loginModelFactory;
+        }
+
         [Authorize]
         public ActionResult Index()
         {
@@ -19,12 +27,12 @@ namespace OverAchiever.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(_loginModelFactory.Create());
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public ActionResult Login(ILoginModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {

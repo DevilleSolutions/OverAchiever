@@ -40,9 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IProxyBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy.cs" />
+    <Compile Include="ProxyBuilderExtensions.cs" />
     <Compile Include="ProxyBuilder.cs" />
+    <Compile Include="TypeBuilderExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DevilleSolutions.Commons\DevilleSolutions.Commons.csproj">

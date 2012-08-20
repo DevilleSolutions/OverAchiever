@@ -26,5 +26,12 @@ namespace DevilleSolutions.Commons.Extensions
         {
             Parallel.ForEach(enumerable, action);
         }
+
+        public static IEnumerable<TResult> SelectManyInParallel<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, IEnumerable<TResult>> selector)
+        {
+            var results = new List<TResult>();
+            Parallel.ForEach(enumerable, item => Parallel.ForEach(selector(item), results.Add));
+            return results;
+        }
     }
 }

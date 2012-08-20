@@ -1,4 +1,4 @@
-﻿namespace OverAchiever.Web.Models.Calculators
+﻿namespace OverAchiever.Infrastructure
 {
     public interface IGoalCalculator
     {

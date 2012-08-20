@@ -15,6 +15,7 @@ namespace DevilleSolutions.Commons.MVC.Windsor.Installers
             container.Register(Component.For<RouteCollection>().Instance(RouteTable.Routes));
             container.Register(Component.For<BundleCollection>().Instance(BundleTable.Bundles));
             container.Register(Component.For<ControllerBuilder>().Instance(ControllerBuilder.Current));
+            container.Register(Component.For<IModelBinder>().ImplementedBy<ServiceLocatorModelBinder>());
 
             container.Register(Component.For<IControllerFactory>().ImplementedBy<WindsorControllerManager>());
         }

@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,169 +8,92 @@ using DevilleSolutions.Commons.Extensions;
 
 namespace DevilleSolutions.Commons.Proxies
 {
-    public class ProxyBuilder
+    public class ProxyBuilder : IProxyBuilder
     {
-        public const string ProxyAssemblyName = "OverAchiever.Proxies";
+        private ICollection<Type> _interfaces;
+        private readonly IDictionary<string, AssemblyBuilder> _assemblyBuilders;
+        private bool _includeDefaultConstructor;
 
-        private readonly ModuleBuilder _moduleBuilder;
-        private readonly IDictionary<Type, Type> _proxyCache;
-        private readonly AssemblyBuilder _assBuilder;
+        private Type Base
+        {
+            get
+            {
+                return _interfaces.First() ?? typeof (object);
+            }
+        }
 
         public ProxyBuilder()
         {
-            _proxyCache = new Dictionary<Type, Type>();
-
-            _assBuilder =
-                AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(ProxyAssemblyName),
-                                                              AssemblyBuilderAccess.RunAndSave, AppDomain.CurrentDomain.BaseDirectory + "bin/");
-            _moduleBuilder = _assBuilder.DefineDynamicModule("Proxies", "OverAchiever.Proxies.dll");
+            _interfaces = new List<Type>();
+            _assemblyBuilders = new Dictionary<string, AssemblyBuilder>();
         }
 
-        public Type BuildTypeImplementing<T>()
-            where T : class
+        public IProxyBuilder Implementing(Type t)
         {
-            return BuildTypeImplementing(typeof (T));
+            if (!t.IsInterface)
+                throw new InvalidOperationException(t.FullName + " must be an interface.");
+
+            _interfaces.Add(t);
+
+            return this;
         }
 
-        public Type BuildTypeImplementing(Type iface)
+        public IProxyBuilder IncludeADefaultConstructor()
         {
-            if (!iface.IsInterface)
-                throw new ArgumentException(string.Format("{0} must be an interface in order to create proxy",
-                                                          iface.Name));
+            _includeDefaultConstructor = true;
 
-            if (!_proxyCache.ContainsKey(iface))
+            return this;
+        }
+
+        public Type Build()
+        {
+            var module = GetModule();
+            var type = module.GetType(_interfaces.First().Name + "Proxy");
+
+            if (type == null)
             {
-                _proxyCache.Add(iface, CreateProxyOf(iface));
+                var typeBuilder = module.DefineType(_interfaces.First().Name + "Proxy", TypeAttributes.Public);
+
+                _interfaces.ForEach(typeBuilder.AddInterfaceImplementation);
+                Dictionary<PropertyInfo, FieldBuilder> properties = _interfaces.SelectManyInParallel(i => i.Properties())
+                    .ToDictionary(prop => prop, prop => typeBuilder.DefineProperty(prop));
+
+                if (_includeDefaultConstructor) typeBuilder.DefineDefaultConstructor();
+
+                IEnumerable<FieldBuilder> constructorParams =
+                    properties.Where(prop => prop.Key.CanRead && !prop.Key.CanWrite).Select(prop => prop.Value);
+
+                if (constructorParams.Any()) typeBuilder.DefineConstructor(constructorParams);
+
+                type = typeBuilder.CreateType();
+                _interfaces = new List<Type>();
             }
 
-            return _proxyCache[iface];
+            return type;
         }
 
-        private void GetPropertiesOfTRecursive(Type type, ref IList<PropertyInfo> properties)
+        public void SaveProxyAssemblies()
         {
-            foreach(var prop in type.GetProperties())
-            {
-                properties.Add(prop);
-            }
-
-            foreach(var subInterface in type.GetInterfaces())
-            {
-                GetPropertiesOfTRecursive(subInterface, ref properties);
-            }
+            _assemblyBuilders.Values.ForEach(builder => builder.Save("TEST"));
         }
 
-        private void GetMethodsOfTRecursive(Type type, ref IList<MethodInfo> methods)
+        private ModuleBuilder GetModule()
         {
-            foreach(var method in type.GetMethods())
+            var assName = _interfaces.First().Assembly.GetName().Name;
+            var assemblyName = new AssemblyName(assName + ".Proxies")
+                                   {Version = _interfaces.First().Assembly.GetName().Version};
+
+            if (!_assemblyBuilders.ContainsKey(assemblyName.Name))
             {
-                methods.Add(method);
+                _assemblyBuilders.Add(assemblyName.Name,
+                                      AppDomain.CurrentDomain.DefineDynamicAssembly(
+                                          assemblyName,
+                                          AssemblyBuilderAccess.RunAndSave,
+                                          Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin")));
             }
 
-            foreach(var subInterface in type.GetInterfaces())
-            {
-                GetMethodsOfTRecursive(subInterface, ref methods);
-            }
-        }
+            return _assemblyBuilders[assemblyName.Name].GetDynamicModule(_interfaces.First().Namespace) ?? _assemblyBuilders[assemblyName.Name].DefineDynamicModule(_interfaces.First().Namespace, assemblyName.Name + ".dll");
 
-        private Type CreateProxyOf(Type iface)
-        {
-            var typeBuilder = _moduleBuilder.DefineType(string.Format("{0}Proxy", iface.Name),
-                                                                TypeAttributes.Public);
-            typeBuilder.AddInterfaceImplementation(iface);
-
-            IList<PropertyInfo> properties = new List<PropertyInfo>();
-            GetPropertiesOfTRecursive(iface, ref properties);
-
-            IList<MethodInfo> methods = new List<MethodInfo>();
-            GetMethodsOfTRecursive(iface, ref methods);
-
-            //return typeBuilder.CreateType();
-            var fields = properties.ToDictionary(pi => pi.Name,
-                                                                              prop =>
-                                                                              typeBuilder.DefineField(
-                                                                                  string.Format("_{0}", prop.Name.ToLower()),
-                                                                                  prop.PropertyType,
-                                                                                  FieldAttributes.Private));
-
-            AddDefaultConstructor(typeBuilder);
-            AddConstructorForReadOnlyProperties(typeBuilder, properties.Where(pi => pi.CanWrite == false && pi.CanRead), fields);
-            
-            const MethodAttributes getSetAttr =
-                MethodAttributes.Public | MethodAttributes.Virtual;
-
-            foreach(var property in properties)
-            {
-                var getMethod = property.GetGetMethod();
-
-                if (getMethod != null)
-                {
-                    methods.Remove(getMethod);
-                    var getter = typeBuilder.DefineMethod(getMethod.Name, getSetAttr,
-                                                          property.PropertyType, Type.EmptyTypes);
-
-                    var il = getter.GetILGenerator();
-                    il.Emit(OpCodes.Ldarg_0);
-                    il.Emit(OpCodes.Ldfld, fields[property.Name]);
-                    il.Emit(OpCodes.Ret);
-
-                    typeBuilder.DefineMethodOverride(getter, getMethod);
-                }
-
-                var setMethod = property.GetSetMethod();
-                if (setMethod != null)
-                {
-                    methods.Remove(setMethod);
-                    var setter = typeBuilder.DefineMethod(setMethod.Name, getSetAttr,
-                                                          typeof(void), new [] { property.PropertyType });
-                    var il = setter.GetILGenerator();
-                    il.Emit(OpCodes.Ldarg_0);
-                    il.Emit(OpCodes.Ldarg_1);
-                    il.Emit(OpCodes.Stfld, fields[property.Name]);
-                    il.Emit(OpCodes.Ret);
-
-                    typeBuilder.DefineMethodOverride(setter, setMethod);
-                }
-            }
-
-            return typeBuilder.CreateType();
-        }
-
-        private static void AddConstructorForReadOnlyProperties(TypeBuilder typeBuilder, IEnumerable<PropertyInfo> properties, IDictionary<string, FieldBuilder> fields)
-        {
-            var defaultConstructorInfo = typeof (object).GetConstructor(Type.EmptyTypes);
-            var constructor = typeBuilder.DefineConstructor(MethodAttributes.Public,
-                                                            CallingConventions.Standard, 
-                                                            properties.Select(pi => pi.PropertyType).ToArray());
-
-
-            var il = constructor.GetILGenerator();
-            il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Call, defaultConstructorInfo);
-
-            properties.ForEach((index, property) =>
-                                   {
-                                       constructor.DefineParameter(index + 1, ParameterAttributes.None,
-                                                                   property.Name.ToLower());
-                                       il.Emit(OpCodes.Ldarg_0);
-                                       il.Emit(OpCodes.Ldarg, index + 1);
-                                       il.Emit(OpCodes.Stfld, fields[property.Name]);
-                                   });
-
-            il.Emit(OpCodes.Ret);
-        }
-
-        private static void AddDefaultConstructor(TypeBuilder typeBuilder)
-        {
-            var defaultConstructorInfo = typeof (object).GetConstructor(Type.EmptyTypes);
-
-            var defaultConstructor = typeBuilder.DefineConstructor(MethodAttributes.Public,
-                                                                   CallingConventions.Standard,
-                                                                   Type.EmptyTypes);
-
-            var defaultConstructorGen = defaultConstructor.GetILGenerator();
-            defaultConstructorGen.Emit(OpCodes.Ldarg_0);
-            defaultConstructorGen.Emit(OpCodes.Call, defaultConstructorInfo);
-            defaultConstructorGen.Emit(OpCodes.Ret);
         }
     }
 }

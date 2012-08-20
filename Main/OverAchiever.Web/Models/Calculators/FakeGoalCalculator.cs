@@ -1,3 +1,5 @@
+using OverAchiever.Infrastructure;
+
 namespace OverAchiever.Web.Models.Calculators
 {
     public class FakeGoalCalculator : IGoalCalculator

@@ -147,21 +147,23 @@
     <Compile Include="Installers\ModelInstaller.cs" />
     <Compile Include="Installers\ServiceInstaller.cs" />
     <Compile Include="Installers\StartupTaskInstaller.cs" />
+    <Compile Include="Models\Factories\ILoginModelFactory.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\Factories\IGoalFactory.cs" />
     <Compile Include="Models\Calculators\FakeGoalCalculator.cs" />
-    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ILoginModel.cs" />
     <Compile Include="Services\GoalTrackingService.cs" />
     <Compile Include="Models\IGoal.cs" />
-    <Compile Include="Models\Calculators\IGoalCalculator.cs" />
     <Compile Include="Services\IGoalTrackingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupTasks\AreaRegistrationStartupTask.cs" />
     <Compile Include="StartupTasks\RegisterBundlesStartupTask.cs" />
     <Compile Include="StartupTasks\RegisterGlobalFiltersStartupTask.cs" />
     <Compile Include="StartupTasks\RegisterRoutesStartupTask.cs" />
+    <Compile Include="StartupTasks\SaveProxyAssemblyStartupTask.cs" />
     <Compile Include="StartupTasks\SetupControllerBuilderStartupTask.cs" />
+    <Compile Include="StartupTasks\OverrideModelBinderStartupTask.cs" />
     <Compile Include="StartupTasks\SetupTrackedGoalsStartupTask.cs" />
   </ItemGroup>
   <ItemGroup>

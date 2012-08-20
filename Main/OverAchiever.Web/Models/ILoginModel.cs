@@ -2,7 +2,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OverAchiever.Web.Models
 {
-    public class LoginModel
+    public interface ILoginModel
+    {
+        [Required]
+        [Display(Name = "User name")]
+        string UserName { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        string Password { get; set; }
+
+        [Display(Name = "Remember me?")]
+        bool RememberMe { get; set; }
+    }
+    /*
+    public class LoginModel : ILoginModel
     {
         [Required]
         [Display(Name = "User name")]
@@ -15,5 +30,5 @@ namespace OverAchiever.Web.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
-    }
+    }*/
 }

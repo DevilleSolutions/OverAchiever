@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace DevilleSolutions.Commons.Extensions
 {
@@ -15,6 +16,22 @@ namespace DevilleSolutions.Commons.Extensions
             where T : class
         {
             return types.BasedOn(typeof (T));
+        }
+
+        public static IEnumerable<PropertyInfo> Properties(this Type type)
+        {
+            var props = new List<PropertyInfo>();
+            type.CollectProperties(ref props);
+            return props;
+        }
+
+        private static void CollectProperties(this Type type, ref List<PropertyInfo> props)
+        {
+            props.AddRange(type.GetProperties());
+            foreach(var i in type.GetInterfaces())
+            {
+                i.CollectProperties(ref props);
+            }
         }
     }
 }
