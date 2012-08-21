@@ -36,6 +36,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevilleSolutions.Commons", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevilleSolutions.Commons.MVC.Windsor", "Framework\DevilleSolutions.Commons.MVC.Windsor\DevilleSolutions.Commons.MVC.Windsor.csproj", "{2C34548F-89BF-4CDE-A178-D689EA214556}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverAchiever.Data", "Main\OverAchiever.Data\OverAchiever.Data.csproj", "{EB84732C-1692-43F2-A61D-B3187BB7FCE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverAchiever.Services", "Services\OverAchiever.Services\OverAchiever.Services.csproj", "{87C14B2A-2EF5-4783-A2C9-A3D7E9A6268C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +74,14 @@ Global
 		{2C34548F-89BF-4CDE-A178-D689EA214556}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C34548F-89BF-4CDE-A178-D689EA214556}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C34548F-89BF-4CDE-A178-D689EA214556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB84732C-1692-43F2-A61D-B3187BB7FCE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB84732C-1692-43F2-A61D-B3187BB7FCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB84732C-1692-43F2-A61D-B3187BB7FCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB84732C-1692-43F2-A61D-B3187BB7FCE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87C14B2A-2EF5-4783-A2C9-A3D7E9A6268C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87C14B2A-2EF5-4783-A2C9-A3D7E9A6268C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87C14B2A-2EF5-4783-A2C9-A3D7E9A6268C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87C14B2A-2EF5-4783-A2C9-A3D7E9A6268C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

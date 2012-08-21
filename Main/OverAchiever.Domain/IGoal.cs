@@ -1,11 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace OverAchiever.Domain
 {
     public interface IGoal
     {
-        IEnumerable<int> Milestones { get; }
+        int Desired { get; set; }
 
-        int GetCurrent();
+        int Last { get; set; }
+
+        Uri ServiceUri { get; set; }
+
+        string Name { get; set; }
+
+        string Summary { get; set; }
+
+        string Description { get; set; }
     }
 }

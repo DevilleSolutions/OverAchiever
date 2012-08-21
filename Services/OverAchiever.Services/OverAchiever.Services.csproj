@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2E33E350-2ECA-4E8F-898B-232BAA5FBE58}</ProjectGuid>
+    <ProjectGuid>{87C14B2A-2EF5-4783-A2C9-A3D7E9A6268C}</ProjectGuid>
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OverAchiever.Web</RootNamespace>
-    <AssemblyName>OverAchiever.Web</AssemblyName>
+    <RootNamespace>OverAchiever.Services</RootNamespace>
+    <AssemblyName>OverAchiever.Services</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
@@ -41,18 +41,11 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\..\packages\Castle.Windsor.3.1.0\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="CommonServiceLocator.WindsorAdapter">
-      <HintPath>..\..\packages\CommonServiceLocator.WindsorAdapter.1.0\lib\NET35\CommonServiceLocator.WindsorAdapter.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -60,13 +53,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -131,41 +121,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs">
-      <Link>Properties\GlobalAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Startables\BundleStartable.cs" />
+    <Compile Include="Startables\RegisterGlobalFiltersStartable.cs" />
+    <Compile Include="Startables\RegisterRoutesStartable.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\FakeGoalValue.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Installers\ControllerInstaller.cs" />
-    <Compile Include="Installers\FactoryInstaller.cs" />
-    <Compile Include="Installers\ModelInstaller.cs" />
-    <Compile Include="Installers\ServiceInstaller.cs" />
-    <Compile Include="Models\Factories\ILoginModelFactory.cs" />
-    <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\ChangePasswordModel.cs" />
-    <Compile Include="Models\Factories\IGoalFactory.cs" />
-    <Compile Include="Models\Calculators\FakeGoalCalculator.cs" />
-    <Compile Include="Models\ILoginModel.cs" />
-    <Compile Include="Services\GoalTrackingService.cs" />
-    <Compile Include="Models\IGoal.cs" />
-    <Compile Include="Services\IGoalTrackingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startables\AreaRegistrationStartable.cs" />
-    <Compile Include="Startables\RegisterBundlesStartable.cs" />
-    <Compile Include="Startables\RegisterGlobalFiltersStartable.cs" />
-    <Compile Include="Startables\RegisterRoutesStartable.cs" />
-    <Compile Include="Startables\SaveProxyAssemblyStartable.cs" />
-    <Compile Include="Startables\SetupControllerBuilderStartable.cs" />
-    <Compile Include="Startables\OverrideModelBinderStartable.cs" />
-    <Compile Include="Startables\SetupTrackedGoalsStartable.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\site.css">
-      <DependentUpon>site.scss</DependentUpon>
-    </Content>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -217,8 +183,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <None Include="Content\site.scss" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="Content\Site.css" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\aspNetHome.png" />
     <Content Include="Images\bullet.png" />
@@ -238,21 +203,16 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="Images\twitter.png" />
     <Content Include="Images\windowsLive.png" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Admin\ChangePassword.cshtml" />
-    <Content Include="Views\Admin\ChangePasswordSuccess.cshtml" />
-    <Content Include="Views\Admin\Login.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Plumbing\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -261,18 +221,6 @@
     <ProjectReference Include="..\..\Framework\DevilleSolutions.Commons.MVC.Windsor\DevilleSolutions.Commons.MVC.Windsor.csproj">
       <Project>{2C34548F-89BF-4CDE-A178-D689EA214556}</Project>
       <Name>DevilleSolutions.Commons.MVC.Windsor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\DevilleSolutions.Commons.Proxies\DevilleSolutions.Commons.Proxies.csproj">
-      <Project>{EDE04205-5388-4DE0-997B-DB9B4EC8CA7D}</Project>
-      <Name>DevilleSolutions.Commons.Proxies</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\DevilleSolutions.Commons\DevilleSolutions.Commons.csproj">
-      <Project>{81BADA43-F747-456B-B795-606053702989}</Project>
-      <Name>DevilleSolutions.Commons</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OverAchiever.Infrastructure\OverAchiever.Infrastructure.csproj">
-      <Project>{6381ED3B-C7E4-4E51-B958-86EA6F96D1CA}</Project>
-      <Name>OverAchiever.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -291,7 +239,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>3098</DevelopmentServerPort>
+          <DevelopmentServerPort>2738</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
