@@ -139,13 +139,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Installers\ControllerInstaller.cs" />
     <Compile Include="Installers\FactoryInstaller.cs" />
     <Compile Include="Installers\ModelInstaller.cs" />
     <Compile Include="Installers\ServiceInstaller.cs" />
+    <Compile Include="Models\Factories\IChangePasswordModelFactory.cs" />
     <Compile Include="Models\Factories\ILoginModelFactory.cs" />
-    <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\Factories\IRegisterModelFactory.cs" />
+    <Compile Include="Models\IRegisterModel.cs" />
+    <Compile Include="Models\IChangePasswordModel.cs" />
     <Compile Include="Models\Factories\IGoalFactory.cs" />
     <Compile Include="Models\Calculators\FakeGoalCalculator.cs" />
     <Compile Include="Models\ILoginModel.cs" />
@@ -158,8 +159,6 @@
     <Compile Include="Startables\RegisterGlobalFiltersStartable.cs" />
     <Compile Include="Startables\RegisterRoutesStartable.cs" />
     <Compile Include="Startables\SaveProxyAssemblyStartable.cs" />
-    <Compile Include="Startables\SetupControllerBuilderStartable.cs" />
-    <Compile Include="Startables\OverrideModelBinderStartable.cs" />
     <Compile Include="Startables\SetupTrackedGoalsStartable.cs" />
   </ItemGroup>
   <ItemGroup>

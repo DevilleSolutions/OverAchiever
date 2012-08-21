@@ -5,14 +5,13 @@ using System.Reflection;
 
 namespace DevilleSolutions.Commons
 {
-    public static class Classes
+    public static class Types
     {
-         public static IEnumerable<Type> FromAssemblies(params Assembly[] assemblies)
-         {
-             return
-                 Types.FromAssemblies(assemblies).Where(
-                     t => !t.IsInterface && !t.IsAbstract && !t.IsValueType && t.IsClass);
-         }
+        public static IEnumerable<Type> FromAssemblies(params Assembly[] assemblies)
+        {
+            return
+                assemblies.SelectMany(a => a.GetExportedTypes());
+        }
 
         public static IEnumerable<Type> FromAssembly(Assembly assembly)
         {

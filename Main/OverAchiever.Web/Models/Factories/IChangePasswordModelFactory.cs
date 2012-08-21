@@ -2,7 +2,7 @@
 
 namespace OverAchiever.Web.Models.Factories
 {
-    public interface ILoginModelFactory : IAbstractFactory<ILoginModel>
+    public interface IChangePasswordModelFactory : IAbstractFactory<IChangePasswordModel>
     {
     }
 }

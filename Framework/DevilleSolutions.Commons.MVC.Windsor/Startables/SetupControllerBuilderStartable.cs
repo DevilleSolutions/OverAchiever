@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using Castle.Core;
 
-namespace OverAchiever.Web.Startables
+namespace DevilleSolutions.Commons.MVC.Windsor.Startables
 {
     public class SetupControllerBuilderStartable : IStartable
     {

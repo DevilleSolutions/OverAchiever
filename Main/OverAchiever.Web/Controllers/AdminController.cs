@@ -77,7 +77,7 @@ namespace OverAchiever.Web.Controllers
         // POST: /Account/ChangePassword
 
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordModel model)
+        public ActionResult ChangePassword(IChangePasswordModel model)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace OverAchiever.Web.Controllers
                 bool changePasswordSucceeded;
                 try
                 {
-                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, userIsOnline: true);
+                    var currentUser = Membership.GetUser(User.Identity.Name, userIsOnline: true);
                     changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
                 }
                 catch (Exception)

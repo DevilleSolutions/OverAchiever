@@ -1,6 +1,8 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using DevilleSolutions.Commons;
+using DevilleSolutions.Commons.Extensions;
 using DevilleSolutions.Commons.MVC.Windsor.Extensions;
 using OverAchiever.Infrastructure;
 using OverAchiever.Web.Models;
@@ -12,8 +14,9 @@ namespace OverAchiever.Web.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IGoal>().UsingProxy().LifestyleTransient());
-            container.Register(Component.For<ILoginModel>().UsingProxy().LifestyleTransient());
+            Interfaces.FromThisAssembly()
+                      .InTheSameNamespaceAs<IGoal>()
+                      .ForEach(model => container.Register(Component.For(model).UsingProxy(model).LifestyleTransient()));
 
             container.Register(Component.For<IGoalCalculator>().ImplementedBy<FakeGoalCalculator>().LifestyleTransient());
         }
